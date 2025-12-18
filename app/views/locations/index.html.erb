@@ -1,0 +1,111 @@
+<!--<h1>Locations</h1>-->
+<% content_for :head do %>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<% end %>
+
+<h1>Maps</h1>
+
+<div data-controller="location"
+     data-location-markers-value="<%= @locations.to_json(only: [:id, :latitude, :longitude, :name, :radius]) %>">
+
+  <button
+    data-action="click->location#toggleAddMode"
+    data-location-target="toggleBtn"
+    class="btn btn-outline-primary mb-2">
+    Add Mode
+  </button>
+
+  <div class="row mb-3">
+    <div class="col">
+      <input type="text" class="form-control" id="manual-name" placeholder="Name" />
+    </div>
+    <div class="col">
+      <input type="number" class="form-control" id="manual-lat" placeholder="Latitude" step="0.000001" />
+    </div>
+    <div class="col">
+      <input type="number" class="form-control" id="manual-lng" placeholder="Longitude" step="0.000001" />
+    </div>
+    <div class="col">
+      <input type="number" class="form-control" id="manual-radius" placeholder="Radius (m)" min="1" />
+    </div>
+    <div class="col">
+      <button class="btn btn-success w-50" data-action="click->location#addManualLocation">Add</button>
+    </div>
+  </div>
+
+  <div data-location-target="canvas" style="height: 400px;"></div>
+
+  <!-- TABLE (INSIDE SAME CONTROLLER) -->
+  <turbo-frame id="locations_table">
+    <%= render "table", locations: @locations %>
+  </turbo-frame>
+
+</div>
+
+<div class="modal fade" id="showModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Location Detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="show-map" style="height: 300px; margin-bottom: 1rem;"></div>
+        <div id="show-modal-body">
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Location</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="edit-map" style="height: 300px; margin-bottom: 1rem;"></div>
+        <div id="edit-modal-body">
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        Are you sure you want to delete
+        <strong id="delete-location-name"></strong>?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <form id="delete-form" method="post" data-turbo="false">
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="authenticity_token"
+                 value="<%= form_authenticity_token %>">
+
+          <button type="submit" class="btn btn-danger">
+            Yes, Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

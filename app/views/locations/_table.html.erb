@@ -1,0 +1,57 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Radius</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% locations.each do |location| %>
+      <tr>
+        <td><%= location.name %></td>
+        <td><%= location.latitude %></td>
+        <td><%= location.longitude %></td>
+        <td><%= location.radius %></td>
+        <td>
+          <button
+            class="btn btn-sm btn-info"
+            data-bs-toggle="modal"
+            data-bs-target="#showModal"
+            data-id="<%= location.id %>">
+            Details
+          </button>
+
+          <button
+            class="btn btn-sm btn-warning"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal"
+            data-id="<%= location.id %>">
+            Edit
+          </button>
+
+          <button
+            class="btn btn-sm btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            data-id="<%= location.id %>"
+            data-name="<%= location.name %>">
+            Delete
+          </button>
+
+          <button
+            class="btn btn-sm btn-secondary"
+            data-action="click->location#centerOn"
+            data-lat="<%= location.latitude %>"
+            data-lng="<%= location.longitude %>">
+            Show Where
+          </button>
+
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

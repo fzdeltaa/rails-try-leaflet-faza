@@ -1,0 +1,29 @@
+<tr id="<%= dom_id(location) %>">
+  <td><%= location.name %></td>
+  <td><%= location.latitude %></td>
+  <td><%= location.longitude %></td>
+  <td><%= location.radius %></td>
+  <td>
+    <button
+      class="btn btn-sm btn-info"
+      data-bs-toggle="modal"
+      data-bs-target="#showModal"
+      data-id="<%= location.id %>">
+      Show
+    </button>
+
+    <button
+      class="btn btn-sm btn-warning"
+      data-bs-toggle="modal"
+      data-bs-target="#editModal"
+      data-id="<%= location.id %>">
+      Edit
+    </button>
+
+    <%= link_to "Delete",
+        location,
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn btn-sm btn-danger" %>
+  </td>
+</tr>
