@@ -23,7 +23,7 @@ Things you may want to cover:
 
 * ...
 Installation:
-git clone
-bundle install
-bin/rails db:migrate
-rails s
+`git clone`
+`bundle install`
+`bin/rails db:migrate`
+`rails s`
