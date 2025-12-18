@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+Installation:
+git clone
+bundle install
+bin/rails db:migrate
+rails s
