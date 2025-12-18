@@ -23,6 +23,7 @@ Things you may want to cover:
 
 * ...
 Installation:
+
 `git clone`
 
 `bundle install`
